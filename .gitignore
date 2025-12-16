@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+back_end/POS_Backend/POS_Backend/appsettings.Development.json
+back_end/POS_Backend/POS_Backend/appsettings.json
