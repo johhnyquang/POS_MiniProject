@@ -70,3 +70,21 @@ root
  │   ├── Dockerfile
  │   └── package.json
  └── docker-compose.yml
+```
+
+---
+
+## 5. Chạy Backend (Local – không Docker)
+```bash
+cd back_end\POS_Backend\POS_Backend
+dotnet run --launch-profile https
+```
+
+---
+
+## 6. Chạy Frontend (Local – không Docker)
+```bash
+cd front_end\POS_Frontend
+npm install
+npm run dev
+```
