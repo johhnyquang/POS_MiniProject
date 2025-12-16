@@ -5,6 +5,6 @@ namespace POS_Backend.Hubs
 {
     public interface IOrderHub
     {
-        public Task NotifyNewOrder(string msg, OrderResponse order);
+        public Task NotifyNewOrder(OrderResponse order);
     }
 }

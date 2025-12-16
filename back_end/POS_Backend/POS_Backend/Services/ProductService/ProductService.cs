@@ -12,7 +12,9 @@ namespace POS_Backend.Services.ProductService
             {
                 ProductId = p.ProductId,
                 ProductName = p.ProductName,
-                Price = p.Price
+                Price = p.Price,
+                ImageUrl = p.ImageUrl
+
             }).ToList();
 
             return new ServiceResponseDTO<List<ProductResponse>>

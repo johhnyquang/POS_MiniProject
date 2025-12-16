@@ -30,6 +30,7 @@ namespace POS_Backend.Services.OrderService
                 {
                     OrderId = newOrderId,
                     ProductId = oi.ProductId,
+                    ProductName = oi.ProductName,
                     Quantity = oi.Quantity,
                     UnitPrice = oi.Price
                 }).ToList(),
@@ -45,9 +46,18 @@ namespace POS_Backend.Services.OrderService
                 {
                     OrderId = order.OrderId,
                     OrderDate = order.OrderDate,
-                    TotalAmount = order.TotalAmount
+                    TotalAmount = order.TotalAmount,
+                    OrderItems = order.OrderItems.Select(oi => new OrderItemResponse
+                    {
+                        OrderId = oi.OrderId,
+                        ProductId = oi.ProductId,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        TotalPrice = oi.Quantity * oi.UnitPrice
+                    }).ToList()
                 };
-                await _hubContext.Clients.All.NotifyNewOrder("New order created", notificationOrder);
+                await _hubContext.Clients.All.NotifyNewOrder(notificationOrder);
                 return new ServiceResponseDTO<bool>
                 {
                     Data = true,
@@ -68,56 +78,24 @@ namespace POS_Backend.Services.OrderService
 
         public ServiceResponseDTO<List<OrderResponse>> GetAllOrders()
         {
-            //throw new NotImplementedException();
-            //var result = Data.SeedData.Orders.Select(o => new OrderResponse
-            //{
-            //    OrderId = o.OrderId,
-            //    OrderDate = o.OrderDate,
-            //    TotalAmount = o.TotalAmount,
-            //    OrderItems = o.OrderItems.Select(oi => new DTOs.OrderItemDTO.OrderItemResponse
-            //    {
-            //        OrderId = oi.OrderId,
-            //        ProductId = oi.ProductId,
-            //        ProductName = oi.ProductName,
-            //        ProductPrice = oi.UnitPrice ,
-            //        Quantity = oi.Quantity,
-            //        TotalPrice = oi.Quantity * oi.UnitPrice
-            //    }).ToList()
-            //}).OrderByDescending(o => o.OrderDate).ToList();
-            //return new ServiceResponseDTO<List<OrderResponse>>
-            //{
-            //    Data = result,
-            //    Success = true,
-            //    Message = "Orders retrieved successfully."
-            //};
-
-            var result = Data.SeedData.Orders.OrderByDescending(o => o.OrderDate).AsEnumerable();
-            var orderResponses = new List<OrderResponse>(result.Count());
-            foreach (var item in result)
-            {
-                var orderResponse = new OrderResponse
+            var orderResponses = Data.SeedData.Orders
+                .OrderByDescending(o => o.OrderDate)
+                .Select(o => new OrderResponse
                 {
-                    OrderId = item.OrderId,
-                    OrderDate = item.OrderDate,
-                    TotalAmount = item.TotalAmount,
-                    OrderItems = new List<OrderItemResponse>(item.OrderItems.Count)
-                };
-
-                foreach (var orderItem in item.OrderItems)
-                {
-                   orderResponse.OrderItems.Add(new OrderItemResponse
-                   {
-                        OrderId = orderItem.OrderId,
-                        ProductId = orderItem.ProductId,
-                        ProductName = orderItem.ProductName,
-                        ProductPrice = orderItem.UnitPrice,
-                        Quantity = orderItem.Quantity,
-                        TotalPrice = orderItem.Quantity * orderItem.UnitPrice
-                   });
-                }
-
-                orderResponses.Add(orderResponse);
-            }
+                    OrderId = o.OrderId,
+                    OrderDate = o.OrderDate,
+                    TotalAmount = o.TotalAmount,
+                    OrderItems = o.OrderItems.Select(oi => new OrderItemResponse
+                    {
+                        OrderId = oi.OrderId,
+                        ProductId = oi.ProductId,
+                        ProductName = oi.ProductName,
+                        ProductPrice = oi.UnitPrice,
+                        Quantity = oi.Quantity,
+                        TotalPrice = oi.Quantity * oi.UnitPrice
+                    }).ToList()
+                })
+                .ToList();
 
             return new ServiceResponseDTO<List<OrderResponse>>
             {
@@ -126,5 +104,6 @@ namespace POS_Backend.Services.OrderService
                 Message = "Orders retrieved successfully."
             };
         }
+
     }
 }

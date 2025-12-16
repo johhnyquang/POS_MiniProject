@@ -6,5 +6,6 @@ namespace POS_Backend.Hubs
 {
     public class OrderHub : Hub<IOrderHub>
     {
+
     }
 }
