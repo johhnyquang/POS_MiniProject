@@ -46,7 +46,6 @@ Frontend sử dụng **React Function Component (Vite)**
 
 ### DevOps
 - Docker
-- HTTPS (Dev certificate)
 
 ---
 
@@ -78,6 +77,8 @@ root
 ```bash
 cd back_end\POS_Backend\POS_Backend
 dotnet run --launch-profile https
+
+Note: URL Backend: https://localhost:7279
 ```
 
 ---
@@ -87,4 +88,17 @@ dotnet run --launch-profile https
 cd front_end\POS_Frontend
 npm install
 npm run dev
+
+Note: URL Frontend: http://localhost:5173
+```
+
+---
+
+## 7. Chạy Project bằng Docker
+```bash
+cd POS_MiniProject
+Mở cmd chạy lệnh
+docker compose up --build
+
+Note: Khi chạy bằng Docker thì URL FE là http://localhost:5173 còn của BE là http://localhost:7279
 ```
