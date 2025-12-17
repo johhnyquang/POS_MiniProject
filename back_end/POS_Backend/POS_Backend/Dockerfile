@@ -4,14 +4,17 @@ WORKDIR /src
 COPY *.csproj ./
 RUN dotnet restore
 
-COPY . ./
+COPY . .
 
 RUN dotnet publish -c Release -o /app/publish --no-restore
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
+
+ENV ASPNETCORE_URLS=http://+:80
+
 COPY --from=build /app/publish .
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "PosBackend.dll"]
+ENTRYPOINT ["dotnet", "POS_Backend.dll"]
