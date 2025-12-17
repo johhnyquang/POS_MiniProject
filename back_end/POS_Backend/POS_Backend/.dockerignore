@@ -1,0 +1,4 @@
+NuGet.config
+**/NuGet.config
+obj
+bin
