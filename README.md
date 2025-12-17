@@ -46,7 +46,6 @@ Frontend sử dụng **React Function Component (Vite)**
 
 ### DevOps
 - Docker
-- HTTPS (Dev certificate)
 
 ---
 
@@ -88,3 +87,11 @@ cd front_end\POS_Frontend
 npm install
 npm run dev
 ```
+
+---
+
+## 7. Chạy Project bằng Docker
+```bash
+cd POS_MiniProject
+Mở cmd chạy lệnh
+docker compose up --build
