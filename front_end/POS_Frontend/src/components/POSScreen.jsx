@@ -22,6 +22,7 @@ function POSScreen() {
       }
     } catch (error) {
       console.error('Error fetching products:', error);
+      console.log(error)
       showNotification('Lỗi tải sản phẩm', 'error');
     }
   };

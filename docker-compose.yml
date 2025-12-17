@@ -3,18 +3,20 @@ services:
     build:
       context: ./back_end/POS_Backend/POS_Backend
       dockerfile: Dockerfile
-      container_name: pos-backend
+    container_name: pos-backend
     ports:
-      - "7279:80"               
+      - "7279:80"
     restart: unless-stopped
 
   frontend:
     build:
-      context: ./front_end
+      context: ./front_end/POS_Frontend
       dockerfile: Dockerfile
-      container_name: pos-frontend
+      args:
+        VITE_API_URL: http://localhost:7279
+    container_name: pos-frontend
     ports:
-      - "5173:80"               
+      - "5173:80"
     depends_on:
       - backend
     restart: unless-stopped
